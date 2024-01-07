@@ -20,7 +20,7 @@ class CustomerList extends Component {
                             <th style={{ width: "50px", textAlign: "center" }}>#</th>
                             <th>Nome</th>
                             <th>Email</th>
-                            <th style={{ width: "160px" }}>Ação</th>
+                            <th style={{ width: "184px" }}>Ação</th>
                         </tr>
                     </thead>
 

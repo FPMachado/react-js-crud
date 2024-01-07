@@ -6,7 +6,8 @@ class MyForm extends Component
     state = {
         form: {first_name: '', last_name: '', email: '', isEdit: false},
         btnName:"Salvar",
-        btnClass: "ui primary button submit-button",
+        btnClass: "ui green button submit-button",
+        icon: <i class="fas fa-save"></i>,
     };
 
     isEmpty(obj){
@@ -17,8 +18,9 @@ class MyForm extends Component
         if(prevProps !== this.props && !this.isEmpty(this.props.customer)){
             this.setState({
                 form: {...this.props.customer, isEdit: true},
-                btnName: "Editar",
-                btnClass: "ui orange button submit-button"
+                btnName: "Atualizar",
+                btnClass: "ui orange button submit-button",
+                icon: <i class="fas fa-sync-alt"></i>
             });
         }
     };
@@ -91,11 +93,11 @@ class MyForm extends Component
                     
                     <div className="four wide field">
                         <label>E-mail</label>
-                        <input type="email" name="email" placeholder="teste@teste.com" onChange={this.handleChange} value={this.state.form.email}/>
+                        <input type="email" name="email" placeholder="email@email.com.br" onChange={this.handleChange} value={this.state.form.email}/>
                     </div>
                     
                     <div className="four wide field">
-                        <button className={this.state.btnClass} onClick={this.onFormSubmit}>{this.state.btnName}</button>
+                        <button className={this.state.btnClass} onClick={this.onFormSubmit} disabled={this.props.disableButton}>{this.state.btnName} {this.state.icon} </button>
                     </div>
                 </div>
             </form>

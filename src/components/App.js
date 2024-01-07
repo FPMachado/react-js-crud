@@ -4,6 +4,7 @@ import MyForm from "./MyForm";
 import CustomerList from "./CustomerList";
 import Loader from "./Loader";
 import "./app.css";
+import Swal from 'sweetalert2'
 
 class App extends Component
 {
@@ -11,6 +12,7 @@ class App extends Component
         customers: [],
         customer: {},
         loader: false,
+        disable: false,
         url: process.env.REACT_APP_API_URL,
     };
 
@@ -20,7 +22,12 @@ class App extends Component
             const customers = await axios.get(this.state.url);
             this.setState({customers: customers.data, loader: false});
         } catch (error) {
-            console.error("Erro ao obter usuários", error);
+            Swal.fire({
+                title: "Oops..!",
+                html: `Parece que algo está errado <br> <b>${error}</b> ` ,
+                icon: "error"
+            });
+            this.setState({loader: false, disable: true, title: "Impossível salvar pois não existe conexão com o banco de dados."});
         }
     };
 
@@ -78,12 +85,12 @@ class App extends Component
             <div>
                 <div className="ui fixed inverted menu">
                     <div className="ui container">
-                        <a href="/#" className="header item">React JS CRUD com Laravel API</a>
+                        <a href="/#" className="header item"> <i class="fab fa-react" style={{ marginRight: "3px" }}></i>ReactJS com Laravel API <i class="fab fa-laravel" style={{ marginLeft: "3px", marginRight: "3px" }}></i> | CRUD </a>
                     </div>
                 </div>
 
                 <div className="ui main container">
-                    <MyForm customer={this.state.customer} onFormSubmit={this.onFormSubmit}/>
+                    <MyForm customer={this.state.customer} onFormSubmit={this.onFormSubmit} disableButton={this.state.disable} title={this.state.title}/>
                     {
                         this.state.loader ? <Loader /> : ""
                     }

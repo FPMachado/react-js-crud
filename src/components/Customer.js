@@ -17,8 +17,8 @@ class Customer extends Component {
                 <td>{`${first_name} ${last_name}`}</td>
                 <td>{email}</td>
                 <td>
-                    <button className='mini ui blue button' onClick={this.onEdit}>Editar</button>
-                    <button className='mini ui red button' onClick={this.onDelete}>Excluir</button>
+                    <button className='mini ui blue button' onClick={this.onEdit}>Editar <i class="fas fa-pencil-alt"></i></button>
+                    <button className='mini ui red button' onClick={this.onDelete}>Excluir <i class="fas fa-trash-alt"></i></button>
                 </td>
             </tr>
         )
