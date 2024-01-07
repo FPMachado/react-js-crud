@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import Customer from "./Customer";
 
 class CustomerList extends Component {
+    onDelete = id => {
+        this.props.onDelete(id);
+    };
+
+    onEdit = data => {
+        this.props.onEdit(data);
+    }
+
     render() {
         const customers = this.props.customers;
         return (
@@ -20,7 +28,7 @@ class CustomerList extends Component {
                         {
                             customers.map((customer) => {
                                 return (
-                                    <Customer customer={customer} key={customer.id} />
+                                    <Customer customer={customer} key={customer.id} onDelete={this.onDelete} onEdit={this.onEdit}/>
                                 );
                             })
                         }

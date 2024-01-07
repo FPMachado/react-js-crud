@@ -9,6 +9,7 @@ class App extends Component
 {
     state = {
         customers: [],
+        customer: {},
         loader: false,
         url: process.env.REACT_APP_API_URL,
     };
@@ -23,9 +24,54 @@ class App extends Component
         }
     };
 
+    deleteCustomer = async id => {
+        this.setState({loader: true});
+        await axios.delete(`${this.state.url}/${id}`);
+
+        this.getCustomers();
+    };
+
+    createCustomer = async (data) => {
+        this.setState({loader: true});
+
+        await axios.post(this.state.url, {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+        });
+        this.getCustomers();
+    };
+
+    editCustomer = async data => {
+        this.setState({customer: {}, loader: true});
+        await axios.put(`${this.state.url}/${data.id}`, {
+            first_name: data.first_name,
+            last_name: data.last_name,
+            email: data.email,
+        });
+
+        this.getCustomers();
+    }
+
     componentDidMount(){
         this.getCustomers();
     }
+
+    onDelete = id => {
+        this.deleteCustomer(id);
+    };
+
+    onEdit = data => {
+        this.setState({ customer: data});
+    };
+
+    onFormSubmit = data => {
+        if(data.isEdit){
+            this.editCustomer(data);
+        }else{
+            this.createCustomer(data);
+        }
+    };
 
     render(){
         return(
@@ -37,11 +83,11 @@ class App extends Component
                 </div>
 
                 <div className="ui main container">
-                    <MyForm />
+                    <MyForm customer={this.state.customer} onFormSubmit={this.onFormSubmit}/>
                     {
                         this.state.loader ? <Loader /> : ""
                     }
-                    <CustomerList customers={this.state.customers}/>
+                    <CustomerList customers={this.state.customers} onDelete={this.onDelete} onEdit={this.onEdit}/>
                 </div>
                 
             </div>
