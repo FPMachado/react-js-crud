@@ -1,10 +1,32 @@
 import React, { Component } from "react";
+import axios from "axios";
 import MyForm from "./MyForm";
 import CustomerList from "./CustomerList";
+import Loader from "./Loader";
 import "./app.css";
 
 class App extends Component
 {
+    state = {
+        customers: [],
+        loader: false,
+        url: process.env.REACT_APP_API_URL,
+    };
+
+    getCustomers = async () => {
+        try {
+            this.setState({loader: true});
+            const customers = await axios.get(this.state.url);
+            this.setState({customers: customers.data, loader: false});
+        } catch (error) {
+            console.error("Erro ao obter usuários", error);
+        }
+    };
+
+    componentDidMount(){
+        this.getCustomers();
+    }
+
     render(){
         return(
             <div>
@@ -16,7 +38,10 @@ class App extends Component
 
                 <div className="ui main container">
                     <MyForm />
-                    <CustomerList/>
+                    {
+                        this.state.loader ? <Loader /> : ""
+                    }
+                    <CustomerList customers={this.state.customers}/>
                 </div>
                 
             </div>
