@@ -71,7 +71,8 @@ class MyForm extends Component
         
         this.setState({
             btnName: "Salvar", 
-            btnClass: "ui primary button submit-button"
+            btnClass: "ui green button submit-button",
+            icon: <i class="fas fa-save"></i>
         })
 
         document.querySelector(".form").reset();
